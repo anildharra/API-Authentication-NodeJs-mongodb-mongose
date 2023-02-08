@@ -16,7 +16,7 @@ The application is **production ready**.
 Step 1: Clone the repo
 
 ```bash
-git clone https://github.com/trulymittal/API-Authentication-NodeJs.git
+git clone https://github.com/anildharra/API-Authentication-NodeJs-mongodb-mongose.git
 ```
 
 Step 2: cd into the cloned repo and run:
@@ -73,7 +73,7 @@ Step 10 (Optional): Change the expiration time of Access Token and Refresh Token
 
 ## Author
 
-- [**Truly Mittal**](https://trulymittal.com)
+- [**Kumar Anil Dharra (Panchal)**] (www.ramsonstech.com)
 
 ## Contribute
 
