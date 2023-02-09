@@ -13,6 +13,8 @@ module.exports = {
     try {
       // const { email, password } = req.body
       // if (!email || !password) throw createError.BadRequest()
+      console.log("register() req.body ::",req.body);
+
       const result = await authSchema.validateAsync(req.body)
 
       const doesExist = await User.findOne({ email: result.email })
@@ -33,17 +35,22 @@ module.exports = {
 
   login: async (req, res, next) => {
     try {
-      const result = await authSchema.validateAsync(req.body)
-      const user = await User.findOne({ email: result.email })
+      console.log("login() req.body ::",req.body);
+      const result = await authSchema.validateAsync(req.body);
+      console.log("login() result ::",result);
+      const user = await User.findOne({ email: result.email });
+      console.log("login() user ::",user);
       if (!user) throw createError.NotFound('User not registered')
-
-      const isMatch = await user.isValidPassword(result.password)
+      console.log("login() TEST 1111 ::");
+      const isMatch = await user.isValidPassword(result.password);
+      console.log("login() isMatch ::",isMatch);
       if (!isMatch)
         throw createError.Unauthorized('Username/password not valid')
-
-      const accessToken = await signAccessToken(user.id)
+        console.log("login() TEST 2222 ::");
+      const accessToken = await signAccessToken(user.id);
+      console.log("login() accessToken ::",accessToken);
       const refreshToken = await signRefreshToken(user.id)
-
+      console.log("login() refreshToken ::",refreshToken);
       res.send({ accessToken, refreshToken })
     } catch (error) {
       if (error.isJoi === true)
@@ -67,16 +74,19 @@ module.exports = {
   },
 
   logout: async (req, res, next) => {
+    console.log("logout() req.body ::",req.body);
     try {
-      const { refreshToken } = req.body
+      const { refreshToken } = req.body;
+      console.log("logout() refreshToken ::",refreshToken);
       if (!refreshToken) throw createError.BadRequest()
-      const userId = await verifyRefreshToken(refreshToken)
+      const userId = await verifyRefreshToken(refreshToken);
+      console.log("logout() userId ::",userId);
       client.DEL(userId, (err, val) => {
         if (err) {
-          console.log(err.message)
+          console.log("logout() err ::",err.message)
           throw createError.InternalServerError()
         }
-        console.log(val)
+        console.log("logout() val ::",val, " , user log out successfully.");
         res.sendStatus(204)
       })
     } catch (error) {
